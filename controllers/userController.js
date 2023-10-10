@@ -3,7 +3,9 @@ const User = require('../models/User');
 // Create a new user
 exports.createUser = async (req, res) => {
   try {
+    console.log("new user...", req.body);
     const newUser = new User(req.body);
+    console.log("newUser..", newUser);
     const savedUser = await newUser.save();
     res.status(201).json(savedUser);
   } catch (error) {
