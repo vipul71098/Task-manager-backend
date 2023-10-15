@@ -1,26 +1,79 @@
 const mongoose = require('mongoose');
-// Define the Issue schema
-const issueSchema = new mongoose.Schema({
-    IssueKey: { type: String, unique: true },
-    Summary: String,
-    Description: String,
-    IssueType: String,
-    Priority: String,
-    Status: String,
-    Resolution: String,
-    Assignee: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-    Reporter: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-    CreatedAt: { type: Date, default: Date.now },
-    UpdatedAt: { type: Date, default: Date.now },
-    DueDate: Date,
-    EstimatedTime: Number,
-    OriginalEstimate: Number,
-    TimeSpent: Number,
-    ParentIssue: { type: mongoose.Schema.Types.ObjectId, ref: 'Issue' },
-  });
+const Schema = mongoose.Schema;
 
+const IssueSchema = new Schema({
+  title: {
+    type: String,
+    required: true,
+    maxlength: 200,
+  },
+  type: {
+    type: String,
+    required: true,
+    enum: ['TASK', 'STORY', 'BUG'], // Modify with your enum values
+  },
+  status: {
+    type: String,
+    required: true,
+    enum: ['BACKLOG', 'SELECTED', 'INPROGRESS', 'DONE'], // Modify with your enum values
+  },
+  priority: {
+    type: String,
+    required: true,
+    enum: ['LOWEST', 'LOW', 'MEDIUM', 'HIGH', 'HIGHEST'], // Modify with your enum values
+  },
+  listPosition: {
+    type: Number,
+    required: true,
+  },
+  reporterId: {
+    type: Number,
+    required: true,
+  },
+  description: String,
+  descriptionText: String,
+  estimate: Number,
+  timeSpent: Number,
+  timeRemaining: Number,
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now,
+  },
+  reporterId: Number,
+  projectId: Number, // Modify based on your associations
 
-  const Issue = mongoose.model('Issue', issueSchema);
-  
+  // Define associations
+  project: {
+    type: Schema.Types.ObjectId,
+    ref: 'Project',
+  },
+  comments: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Comment',
+    },
+  ],
+  users: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+    },
+  ],
+  userIds: [Number],
+});
 
-  module.exports = Issue;
+IssueSchema.pre('save', function (next) {
+  if (this.description) {
+    // Strip HTML tags from the description and store in descriptionText
+    this.descriptionText = this.description.replace(/(<([^>]+)>)/gi, '');
+  }
+  next();
+});
+
+const Issue = mongoose.model('Issue', IssueSchema);
+
+module.exports = Issue;

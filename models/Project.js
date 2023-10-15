@@ -1,16 +1,41 @@
 const mongoose = require('mongoose');
-// Define the Project schema
-const projectSchema = new mongoose.Schema({
-    ProjectName: { type: String, required: true },
-    Description: String,
-    StartDate: Date,
-    EndDate: Date,
-    ProjectLead: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-    CreatedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-    CreatedAt: { type: Date, default: Date.now },
-  });
-  
+const Schema = mongoose.Schema;
 
-  const Project = mongoose.model('Project', projectSchema);
+const ProjectSchema = new Schema({
+  name: {
+    type: String,
+    required: true,
+    maxlength: 100,
+  },
+  url: String,
+  description: String,
+  category: {
+    type: String,
+    required: true,
+    enum: ['SOFTWARE', 'HARDWARE', 'OTHER'], // Modify with your enum values
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now,
+  },
+  issues: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Issue',
+    },
+  ],
+  users: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+    },
+  ],
+});
 
-  module.exports = Project;
+const Project = mongoose.model('Project', ProjectSchema);
+
+module.exports = Project;

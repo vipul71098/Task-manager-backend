@@ -1,17 +1,53 @@
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-// Define the User schema
-const userSchema = new mongoose.Schema({
-  Username: { type: String, required: true, unique: true },
-  Password: { type: String, required: true },
-  Email: { type: String, required: true },
-  FirstName: String,
-  LastName: String,
-  Role: { type: String, enum: ['Admin', 'Developer', 'QA', 'Other'], required: true },
+const UserSchema = new Schema({
+  name: {
+    type: String,
+    required: true,
+    maxlength: 100,
+  },
+  type: {
+    type: String,
+    required: true,
+    enum: ['Admin', 'Pro-Man', 'General'], // Modify with your enum values
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    maxlength: 200,
+  },
+  avatarUrl: {
+    type: String,
+    maxlength: 2000,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now,
+  },
+  comments: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Comment',
+    },
+  ],
+  issues: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Issue',
+    },
+  ],
+  project: {
+    type: Schema.Types.ObjectId,
+    ref: 'Project',
+  },
 });
 
-
-
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model('User', UserSchema);
 
 module.exports = User;

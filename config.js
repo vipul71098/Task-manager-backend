@@ -1,4 +1,4 @@
 // config.js
 module.exports = {
-  mongoURI: 'mongodb://localhost:27017/myDb',
+  mongoURI: 'mongodb://localhost:27017/pnpDb',
 };

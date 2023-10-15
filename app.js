@@ -28,17 +28,17 @@ const userRoutes = require('./routes/userRoutes');
 const projectRoutes = require('./routes/projectRoutes');
 const issueRoutes = require('./routes/issueRoutes');
 const commentRoutes = require('./routes/commentRoutes');
-const attachmentRoutes = require('./routes/attachmentRoutes');
-const projectMemberRoutes = require('./routes/projectMemberRoutes');
-const issueHistoryRoutes = require('./routes/issueHistoryRoutes');
+const adminauthRoutes = require('./routes/adminauthRoute');
+// const attachmentRoutes = require('./routes/attachmentRoutes');
+// const projectMemberRoutes = require('./routes/projectMemberRoutes');
+// const issueHistoryRoutes = require('./routes/issueHistoryRoutes');
+// const inventoryRoutes = require('./routes/inventoryRoutes');
 
-app.use('/api/users', userRoutes);
-app.use('/api/projects', projectRoutes);
-app.use('/api/issues', issueRoutes);
-app.use('/api/comments', commentRoutes);
-app.use('/api/attachments', attachmentRoutes);
-app.use('/api/project-members', projectMemberRoutes);
-app.use('/api/issue-history', issueHistoryRoutes);
+app.use('/users', userRoutes);
+app.use('/project', projectRoutes);
+app.use('/issues', issueRoutes);
+app.use('/comments', commentRoutes);
+app.use('/auth', adminauthRoutes);
 
 // Use routes for other entities
 

@@ -7,12 +7,12 @@ const authenticationMiddleware = require('../middleware/authentication');
 router.post('/', authenticationMiddleware, commentController.createComment);
 
 // Get all comments for an issue
-router.get('/:issueId', commentController.getCommentsForIssue);
+router.get('/:issueId', commentController.getAllComments);
 
 // Update a comment
-router.put('/:commentId', authenticationMiddleware, commentController.updateComment);
+// router.put('/:commentId', authenticationMiddleware, commentController.updateComment);
 
 // Delete a comment
-router.delete('/:commentId', authenticationMiddleware, commentController.deleteComment);
+// router.delete('/:commentId', authenticationMiddleware, commentController.deleteComment);
 
 module.exports = router;

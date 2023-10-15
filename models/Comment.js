@@ -1,12 +1,28 @@
 const mongoose = require('mongoose');
-// Define the Comment schema
-const commentSchema = new mongoose.Schema({
-    CommentText: String,
-    CommentedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-    CommentedAt: { type: Date, default: Date.now },
-  });
-  
 
+const commentSchema = new mongoose.Schema({
+  body: {
+    type: String,
+    required: true,
+    maxlength: 50000,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now,
+  },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+  },
+  issue: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Issue',
+  },
+});
 
 const Comment = mongoose.model('Comment', commentSchema);
 
